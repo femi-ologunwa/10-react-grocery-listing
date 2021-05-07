@@ -6,6 +6,7 @@ function App() {
    const [name, setName] = useState('');
    const [list, setList] = useState([]);
    const [isEditing, setIsEditing] = useState(false);
+   const [editID, setEditID] = useState('');
    const [alert, setAlert] = useState({
       show: false,
       msg: '',
@@ -22,7 +23,19 @@ function App() {
 
       //is an item being edited
       else if (name && isEditing) {
-         //deal with edit
+         setList(
+            list.map((item) => {
+               if (item.id === editID) {
+                  //edit only the title of the item; leave other properties as they are
+                  return { ...item, title: name };
+               }
+               return item;
+            })
+         );
+         setName('');
+         setEditID(null);
+         setIsEditing(false);
+         showAlert(true, 'success', 'value changed');
       }
 
       //add item to list of items
@@ -48,6 +61,13 @@ function App() {
       setList(list.filter((item) => item.id !== id));
    };
 
+   const editItem = (id) => {
+      const specificItem = list.find((item) => item.id === id);
+      setIsEditing(true);
+      setEditID(id);
+      setName(specificItem.title);
+   };
+
    return (
       <section className='section-center'>
          <form className='grocery-form' onSubmit={handleSubmit}>
@@ -71,7 +91,7 @@ function App() {
 
          {list.length > 0 && (
             <div className='grocery-container'>
-               <List items={list} removeItem={removeItem} />
+               <List items={list} removeItem={removeItem} editItem={editItem} />
                <button className='clear-btn' onClick={clearList}>
                   clear items
                </button>
