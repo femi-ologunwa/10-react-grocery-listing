@@ -4,12 +4,30 @@ import Alert from './Alert';
 
 function App() {
    const [name, setName] = useState('');
+   const [list, setList] = useState([]);
    const [isEditing, setIsEditing] = useState(false);
    const [alert, setAlert] = useState({ show: false, msg: '', type: '' });
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      console.log('hello');
+
+      //is form empty on submit
+      if (!name) {
+         //display alert
+      }
+
+      //is an item being edited
+      else if (name && isEditing) {
+         //deal with edit
+      }
+
+      //add item to list of items
+      else {
+         //show alert
+         const newItem = { id: new Date().getTime().toString(), title: name };
+         setList([...list, newItem]);
+         setName('');
+      }
    };
 
    return (
@@ -31,10 +49,12 @@ function App() {
             </div>
          </form>
 
-         <div className='grocery-container'>
-            <List />
-            <button className='clear-btn'>clear items</button>
-         </div>
+         {list.length > 0 && (
+            <div className='grocery-container'>
+               <List items={list} />
+               <button className='clear-btn'>clear items</button>
+            </div>
+         )}
       </section>
    );
 }
