@@ -2,7 +2,7 @@
 
 [view website](https://femi-ologunwa.github.io/10-react-grocery-listing/)
 
-![](./homescreen.png)
+![](./homescreen.gif)
 
 ### Implementation
 
